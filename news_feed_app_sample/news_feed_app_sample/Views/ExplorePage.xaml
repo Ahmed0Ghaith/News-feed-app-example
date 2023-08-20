@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="news_feed_app_sample.Views.ExplorePage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Controles="clr-namespace:news_feed_app_sample.Combonents"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:vm="clr-namespace:news_feed_app_sample.ViewModels"
+    Title="LINK DEVELOPMENT"
+    BackgroundColor="WhiteSmoke">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="search.png" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid Margin="16,5">
+
+            <CollectionView ItemSizingStrategy="MeasureAllItems" ItemsSource="{Binding NewsList}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="20" />
+
+                </CollectionView.ItemsLayout>
+                <CollectionView.EmptyView>
+                    <StackLayout>
+                        <Label
+                            FontSize="Large"
+                            HorizontalOptions="CenterAndExpand"
+                            Text="Cant Find News"
+                            VerticalOptions="CenterAndExpand"
+                            VerticalTextAlignment="Center" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout BackgroundColor="White">
+                            <StackLayout>
+                                <ffimageloading:CachedImage
+                               LoadingPlaceholder="placeholder.png"
+
+                                    Aspect="AspectFill"
+                                    HeightRequest="200"
+                                    HorizontalOptions="FillAndExpand"
+                                    Source="{Binding UrlToImage}" />
+                                <StackLayout Padding="10" Spacing="10">
+                                    <Label
+                                        FontSize="18"
+                                        LineBreakMode="TailTruncation"
+                                        MaxLines="2"
+                                        Text="{Binding Title}"
+                                        TextColor="#1f1f1f" />
+                                    <Label Text="{Binding Author}" />
+                                    <Label HorizontalOptions="End" Text="{Binding Date}" />
+
+                                </StackLayout>
+                            </StackLayout>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ExplorePageViewModel}}, Path=GoToArticleDetailsCommand}" CommandParameter="{Binding .}" />
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <StackLayout IsVisible="{Binding IsBusy}">
+                <Controles:LoadingIndicator HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+            </StackLayout>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

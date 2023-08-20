@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="news_feed_app_sample.Views.MainPageFlyout"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:news_feed_app_sample.ViewModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    Title="Flyout">
+
+    <StackLayout>
+        <ListView
+            x:Name="MenuItemsListView"
+            HasUnevenRows="true"
+            ItemsSource="{Binding MenuItems}"
+            RowHeight="70"
+            SeparatorVisibility="None">
+            <ListView.Header>
+                <StackLayout HeightRequest="140">
+                    <StackLayout
+                        HorizontalOptions="CenterAndExpand"
+                        Orientation="Horizontal"
+                        VerticalOptions="CenterAndExpand">
+                        <Frame
+                            Padding="0"
+                            CornerRadius="50"
+                            HeightRequest="70"
+                            VerticalOptions="Center"
+                            WidthRequest="70">
+                            <Image
+                                Aspect="AspectFit"
+                                BackgroundColor="White"
+                                Source="profile.png" />
+                        </Frame>
+                        <StackLayout Margin="15,0,0,0" VerticalOptions="Center">
+                            <Label LineBreakMode="TailTruncation" Text="Welcome" />
+                            <Label
+                                FontSize="21"
+                                Text="Tony Roshdy"
+                                TextColor="Black" />
+
+                        </StackLayout>
+
+                        <StackLayout HeightRequest="50" VerticalOptions="Center">
+                            <Image
+                                Margin="30,0,0,0"
+                                HeightRequest="40"
+                                Source="arrow.png" />
+                        </StackLayout>
+                    </StackLayout>
+                </StackLayout>
+
+            </ListView.Header>
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid
+                            x:Name="FItem"
+                            Padding="0,10"
+                            ColumnDefinitions="5,auto,*"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand">
+                            <StackLayout BackgroundColor="White">
+                                <StackLayout.Triggers>
+                                    <DataTrigger
+                                        Binding="{Binding IsSelected}"
+                                        TargetType="StackLayout"
+                                        Value="True">
+                                        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                                    </DataTrigger>
+                                </StackLayout.Triggers>
+                            </StackLayout>
+                            <Image
+                                Grid.Column="1"
+                                Margin="7,0"
+                                HeightRequest="30"
+                                Source="{Binding Icon}" />
+                            <Label
+                                x:Name="Lable"
+                                Grid.Column="2"
+                                FontSize="24"
+                                Text="{Binding Title}"
+                                TextColor="#1f1f1f"
+                                VerticalOptions="FillAndExpand"
+                                VerticalTextAlignment="Center" />
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainPageViewModel}}, Path=GoToPageCommand}" CommandParameter="{Binding .}" />
+
+                            </Grid.GestureRecognizers>
+                           
+                        </Grid>
+
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</ContentPage>
